@@ -5,7 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 
 function NavBar() {
   const navigate = useNavigate();
-  const { isAuth, logout } = useContext(AuthContext);
+  const { authState, logout } = useContext(AuthContext);
 
   return (
     <nav>
@@ -15,9 +15,9 @@ function NavBar() {
           <h3>Banana Security</h3>
         </span>
       </Link>
-      <p>{isAuth.email}</p>
+      <p>{authState.user ? authState.user.email : ""}</p>
       <div>
-        {isAuth.isAuth ? (
+        {authState.isAuth ? (
           <button type="button" onClick={() => logout("/")}>
             Log uit
           </button>

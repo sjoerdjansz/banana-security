@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 function Profile() {
-  const { isAuth } = useContext(AuthContext);
+  const { authState } = useContext(AuthContext);
+  console.log(authState);
   return (
     <>
       <h1>Profielpagina</h1>
@@ -13,7 +14,7 @@ function Profile() {
           <strong>Gebruikersnaam:</strong> hardcoded-test
         </p>
         <p>
-          <strong>Email:</strong> {isAuth.email}
+          <strong>Email:</strong> {authState.user ? authState.user.email : ""}
         </p>
       </section>
       <section>

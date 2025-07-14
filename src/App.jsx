@@ -9,7 +9,7 @@ import "./App.css";
 import { AuthContext } from "./context/AuthContext";
 
 function App() {
-  const { isAuth } = useContext(AuthContext);
+  const { authState } = useContext(AuthContext);
   return (
     <>
       <NavBar />
@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route
             path="/profile"
-            element={isAuth.isAuth ? <Profile /> : <Navigate to="/" />}
+            element={authState.isAuth ? <Profile /> : <Navigate to="/" />}
           />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />

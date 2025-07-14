@@ -1,18 +1,47 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
 
 function SignIn() {
   const { login } = useContext(AuthContext);
-  const [email, setEmail] = useState("");
+  const [loginDetails, setLoginDetails] = useState({
+    email: "",
+    password: "",
+  });
+
+  async function handleUserLogin(userObject) {
+    try {
+      const { data } = await axios.post(
+        "https://novi-backend-api-wgsgz.ondigitalocean.app/api/login",
+        userObject,
+        {
+          headers: {
+            "novi-education-project-id": "6528bba2-b1b4-4ab4-beb8-01354a92c74e",
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      console.log(data);
+      login(data);
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   function handleChange(e) {
-    setEmail(e.target.value);
+    const { name, value } = e.target;
+    setLoginDetails((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    login("/profile", email);
+    console.log(loginDetails);
+    handleUserLogin(loginDetails);
   }
 
   return (
@@ -29,10 +58,17 @@ function SignIn() {
           type="email"
           id="email"
           name="email"
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
+          value={loginDetails.email}
         />
         <label htmlFor="password">Password</label>
-        <input type="password" id="password" name="password" />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          onChange={handleChange}
+          value={loginDetails.password}
+        />
 
         <button type="submit">Inloggen</button>
       </form>
